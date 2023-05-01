@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <style>
+      #title {
+        margin-top: 180px;
+        color: rgb(78, 8, 8);
+        font-size: large;
+        display: flex;
+        justify-content: center;
+      }
+      input {
+        margin-top: 50px;
+        margin-left: 40%;
+        width: 300px;
+        height: 30px;
+        display: block;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="input1" type="text" />
+    <div id="word"></div>
+    <h1 name="title" id="title"></h1>
+  </body>
+  <script>
+    //2)
+
+    let title = document.getElementById("title");
+    let input = document.getElementById("input1");
+    let div = document.getElementById("word");
+    let link_array = [];
+    let description_array = [];
+    let title_array = [];
+    let date_array = [];
+    function fetch_data() {
+      for (let i = 0; i < 70; i++) {
+        fetch("https://rss.nytimes.com/services/xml/rss/nyt/World.xml", {
+          method: "GET",
+        })
+          .then((resp) => resp.text())
+          .then((str) =>
+            new window.DOMParser().parseFromString(str, "text/xml")
+          )
+          .then(
+            (data) => (
+              (title_array[i] =
+                data.getElementsByTagName("title")[i].childNodes[0].nodeValue),
+              (link_array[i] =
+                data.getElementsByTagName("link")[i].childNodes[0].nodeValue),
+              (description_array[i] =
+                data.getElementsByTagName("description")[
+                  i
+                ].childNodes[0].nodeValue),
+              (date_array[i] =
+                data.getElementsByTagName("pubDate")[
+                  i
+                ].childNodes[0].nodeValue),
+              (input.onchange = (e) => {
+                console.log(e.target.value);
+
+                if (title_array[i].includes(e.target.value) == true) {
+                  div.innerHTML = title_array[i];
+                } else {
+                  div.innerHTML = "not found";
+                  console.log(title_array[i]);
+                }
+              }),
+              (title.innerHTML +=
+                i +
+                ". " +
+                title_array[i] +
+                "<br>" +
+                "Link : " +
+                link_array[i] +
+                "<br>" +
+                "Description : " +
+                description_array[i] +
+                "<br>" +
+                "Date and time : " +
+                date_array[i] +
+                "<br>" +
+                "<br>"),
+              title_array.sort((a, b) => a.localeCompare(b))
+            )
+          );
+      }
+    }
+
+    fetch_data();
+
+    console.log(title_array);
+    //sorted in alphabetically order
+  </script>
+</html>

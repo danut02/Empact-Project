@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <body></body>
+  <script>
+    //3)
+    let nr = prompt("Enter number of strings");
+
+    let input;
+    let regex = /^[0-9.-]*$/;
+
+    for (let i = 0; i < nr; i++) {
+      input = prompt("Enter text");
+      input.toString();
+      if (input.match(regex)) console.log(input);
+    }
+  </script>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        animation-iteration-count: infinite;
+        animation-duration: 1.5s;
+      }
+      .title2 {
+        margin-top: 60px;
+      }
+      .buttons {
+        margin-top: 40px;
+        height: 50px;
+        width: 90px;
+        position: relative;
+        left: 30%;
+        transition: all 1s;
+        border-width: 4px;
+        border-color: rgb(17, 16, 16);
+      }
+      .buttons:hover {
+        border-radius: 20px;
+        transform: translateY(-5px);
+      }
+      h2 {
+        margin-top: 150px;
+        display: flex;
+        justify-content: center;
+      }
+      .buttons:nth-child(2) {
+        background-color: black;
+      }
+
+      .buttons:nth-child(3) {
+        background-color: rgb(8, 39, 245);
+      }
+
+      .buttons:nth-child(4) {
+        background-color: pink;
+      }
+      .buttons:nth-child(5) {
+        background-color: rgb(255, 129, 26);
+      }
+      .buttons:nth-child(6) {
+        background-color: rgb(140, 244, 102);
+      }
+      .buttons:nth-child(7) {
+        background: linear-gradient(
+          90deg,
+          red,
+          rgb(46, 163, 33),
+          coral,
+          rgb(148, 9, 235),
+          blue
+        );
+      }
+      .buttons:nth-child(8) {
+        background: linear-gradient(
+          90deg,
+          rgb(44, 255, 44),
+          rgb(46, 163, 33),
+          rgb(102, 255, 178),
+          rgb(76, 180, 255)
+        );
+      }
+      .buttons:nth-child(9) {
+        animation-name: anim1;
+        animation-iteration-count: infinite;
+        animation-duration: 1.5s;
+      }
+      @keyframes anim1 {
+        100% {
+          background-color: red;
+        }
+
+        40% {
+          background-color: cyan;
+        }
+        20% {
+          background-color: rgb(229, 255, 60);
+        }
+        60% {
+          background-color: rgb(255, 59, 177);
+        }
+      }
+      #input1 {
+        position: relative;
+        left: 45%;
+        width: 180px;
+        border-radius: 5px;
+        border-color: crimson;
+        border-width: 4px;
+        border-top-color: rgb(87, 255, 238);
+        border-left-color: rgb(120, 250, 168);
+      }
+    </style>
+  </head>
+  <body>
+    <h2 id="title">Pick a color</h2>
+
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <button class="buttons"></button>
+    <h2 class="title2">OR</h2>
+    <h2 class="title2">Write the color name</h2>
+    <input placeholder="Press enter" id="input1" />
+  </body>
+  <script>
+    let title = document.getElementById("title");
+    let input_colors = document.getElementById("input1");
+    let colors = [
+      "black",
+      "blue",
+      "pink",
+      "rgb(255, 129, 26)",
+      "rgb(140, 244, 102)",
+      "linear-gradient(90deg,red, rgb(46, 163, 33),coral, rgb(148, 9, 235), blue )",
+      "linear-gradient( 90deg,  rgb(44, 255, 44), rgb(46, 163, 33),rgb(102, 255, 178),  rgb(76, 180, 255))",
+    ];
+    let button = [];
+
+    for (let i = 0; i < colors.length + 1; i++) {
+      button[i] = document.getElementsByClassName("buttons")[i];
+
+      button[i].onclick = () => {
+        button[i].style.borderColor = "white";
+        for (
+          let indexForward = i + 1;
+          indexForward < colors.length + 1;
+          indexForward++
+        ) {
+          if (
+            button[i].style.borderColor == "white" &&
+            button[indexForward].style.borderColor == "white"
+          )
+            button[indexForward].style.borderColor = "black";
+        }
+        for (let indexBack = i - 1; indexBack >= 0; indexBack--) {
+          if (
+            button[i].style.borderColor == "white" &&
+            button[indexBack].style.borderColor == "white"
+          )
+            button[indexBack].style.borderColor = "black";
+        }
+        if (i == 0) {
+          title.style.color = "white";
+        } else {
+          title.style.color = "black";
+        }
+        if (i == 7) document.body.style.animationName = "anim1";
+        else {
+          document.body.style.background = colors[i];
+          document.body.style.animationName = "";
+        }
+      };
+    }
+    input_colors.onchange = (e) => {
+      console.log(e.target.value);
+      document.body.style.backgroundColor = e.target.value;
+    };
+  </script>
+</html>
